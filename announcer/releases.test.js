@@ -13,8 +13,8 @@ const guild = {
         cache: [
             { id: "1501202364302889142", name: "Quartz Update Ping" },
             { id: "1520786654238081094", name: "Quartz Pre-Release Ping" },
-            { id: "300", name: "Bismuth Update Ping" },
-            { id: "400", name: "Bismuth Pre-Release Ping" },
+            { id: "300", name: "Topaz Update Ping" },
+            { id: "400", name: "Topaz Pre-Release Ping" },
             { id: "500", name: "Sapphire Update Ping" },
             { id: "600", name: "Sapphire Pre-Release Ping" },
         ],
@@ -82,12 +82,12 @@ test("splitLanguages returns null Korean when the body has no Hangul", () => {
 
 test("assets from any repo get a download button, labelled by filename", () => {
     const release = fakeRelease([
-        { name: "Bismuth.dll", browser_download_url: "https://example.com/Bismuth.dll" },
+        { name: "Topaz.dll", browser_download_url: "https://example.com/Topaz.dll" },
     ]);
-    const [container, row] = buildReleaseMessage(release, "example/bismuth", "en");
+    const [container, row] = buildReleaseMessage(release, "example/topaz", "en");
 
     assert.strictEqual(row.toJSON().components.length, 2); // asset + GitHub link
-    assert.match(JSON.stringify(container.toJSON()), /Bismuth\.dll/);
+    assert.match(JSON.stringify(container.toJSON()), /Topaz\.dll/);
 });
 
 test("known Quartz assets keep their friendly loader labels", () => {
@@ -101,6 +101,21 @@ test("known Quartz assets keep their friendly loader labels", () => {
     assert.match(json, /MelonLoader/);
     assert.match(json, /UMM/);
     assert.strictEqual(row.toJSON().components.length, 3);
+});
+
+// Topaz releases also carry Bismuth.zip for installs from before the rename to update
+// through; only Topaz.zip is for people.
+test("Topaz announces its own zip, not the legacy Bismuth one", () => {
+    const release = fakeRelease([
+        { name: "Topaz.zip", browser_download_url: "https://example.com/Topaz.zip" },
+        { name: "Bismuth.zip", browser_download_url: "https://example.com/Bismuth.zip" },
+    ]);
+    const [container, row] = buildReleaseMessage(release, "PrismMods/Topaz", "en");
+    const json = JSON.stringify([container.toJSON(), row.toJSON()]);
+
+    assert.match(json, /Topaz\.zip/);
+    assert.doesNotMatch(json, /Bismuth\.zip/);
+    assert.strictEqual(row.toJSON().components.length, 2); // Topaz.zip + GitHub link
 });
 
 // The real PrismMods/Quartz asset list: four internal files, two for humans.
@@ -221,14 +236,14 @@ test("the track drives the container's accent colour", () => {
 });
 
 test("an announcement is matched back to its release by the GitHub link", () => {
-    const url = "https://github.com/PrismMods/Bismuth/releases/tag/v1.3.2";
+    const url = "https://github.com/PrismMods/Topaz/releases/tag/v1.3.2";
     const release = fakeRelease(
-        [{ name: "Bismuth.zip", browser_download_url: "https://example.com/Bismuth.zip" }],
+        [{ name: "Topaz.zip", browser_download_url: "https://example.com/Topaz.zip" }],
         undefined,
         { html_url: url }
     );
     const message = {
-        components: buildReleaseMessage(release, "PrismMods/Bismuth", "en").map(c => c.toJSON()),
+        components: buildReleaseMessage(release, "PrismMods/Topaz", "en").map(c => c.toJSON()),
     };
 
     assert.ok(announcementMatches(message, url));
@@ -238,14 +253,14 @@ test("an announcement is matched back to its release by the GitHub link", () => 
 });
 
 test("a message with no components matches nothing", () => {
-    assert.ok(!announcementMatches({}, "https://github.com/PrismMods/Bismuth/releases/tag/v1.3.2"));
+    assert.ok(!announcementMatches({}, "https://github.com/PrismMods/Topaz/releases/tag/v1.3.2"));
 });
 
 test("each repo pings its own role, stable and prerelease", () => {
     assert.strictEqual(findPingRole(guild, "Quartz", false), "1501202364302889142");
     assert.strictEqual(findPingRole(guild, "Quartz", true), "1520786654238081094");
-    assert.strictEqual(findPingRole(guild, "Bismuth", false), "300");
-    assert.strictEqual(findPingRole(guild, "Bismuth", true), "400");
+    assert.strictEqual(findPingRole(guild, "Topaz", false), "300");
+    assert.strictEqual(findPingRole(guild, "Topaz", true), "400");
     assert.strictEqual(findPingRole(guild, "Sapphire", false), "500");
 });
 

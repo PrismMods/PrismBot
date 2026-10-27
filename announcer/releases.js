@@ -34,7 +34,7 @@ function releaseTrack(release) {
 const ASSET_LABELS = {
     "Quartz.zip": "MelonLoader",
     "QuartzUmm.zip": "UMM",
-    "Bismuth.zip": "UMM",
+    "Topaz.zip": "UMM",
 };
 
 const STRINGS = {
@@ -183,7 +183,7 @@ function flattenTables(md) {
     return out.join("\n");
 }
 
-// Ping roles are named after the repo: "Quartz Update Ping", "Bismuth
+// Ping roles are named after the repo: "Quartz Update Ping", "Topaz
 // Pre-Release Ping". Matching on the name means announcing a new mod needs two
 // new roles in Discord and no deploy. A missing role announces without a ping
 // rather than falling back to another mod's role — a silent announcement beats

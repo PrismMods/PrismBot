@@ -4,7 +4,7 @@
 // deliveries 404'd has to be fetched, re-signed and posted by hand.
 //
 //   node scripts/announce.js PrismMods/Sapphire v1.0.0-a2
-//   node scripts/announce.js PrismMods/Bismuth v1.3.2 --url=https://host/webhook
+//   node scripts/announce.js PrismMods/Topaz v1.3.2 --url=https://host/webhook
 //
 // Defaults to localhost so a stray run cannot hit production; pass --url (or
 // set WEBHOOK_URL) to announce for real.

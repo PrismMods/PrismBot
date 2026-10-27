@@ -4,7 +4,7 @@
 //   node scripts/fake-release.js                        -> prerelease, default tag
 //   node scripts/fake-release.js v1.2.3                 -> custom tag
 //   node scripts/fake-release.js v1.2.3 --stable
-//   node scripts/fake-release.js --repo=PrismMods/Bismuth
+//   node scripts/fake-release.js --repo=PrismMods/Topaz
 //   node scripts/fake-release.js v1.2.3 --edited
 //
 // The --repo form is how you check a new mod's ping role and download buttons
